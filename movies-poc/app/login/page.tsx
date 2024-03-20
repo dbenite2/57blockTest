@@ -1,10 +1,10 @@
 'use client'
 
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import { useRouter } from 'next/navigation';
 import type {NextPage} from "next";
 
-import InputField from "@/app/ui/InputField";
+import InputField from "@/app/components/ui/InputField";
 
 const MIN_PASSWORD_LENGTH = 6;
 
@@ -14,13 +14,6 @@ const LoginPage: NextPage = () => {
     const [errors,setErrors] = useState<{email?: string; password?: string}>({});
     const router = useRouter();
 
-    useEffect(() => {
-        // checks if the user is already logged in
-        const user = localStorage.getItem('user');
-        if(user) {
-            router.push('/');
-        }
-    }, [router]);
 
     const validateForm = () => {
         const errors: {email?: string; password?: string} = {};
