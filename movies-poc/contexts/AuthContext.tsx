@@ -14,7 +14,6 @@ interface AuthProviderProps {
 }
 
 interface User {
-    // Define properties relevant to your user object
     id: string;
     username: string;
 }
