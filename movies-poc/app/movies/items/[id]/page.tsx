@@ -1,29 +1,50 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import {Movie} from "@/app/lib/movies";
 import React, {useEffect, useState} from 'react';
+import Spinner from "@/app/components/ui/spinner";
 
 const MovieDetailPage = ({ params }: { params: { id: string } }) => {
     const router = useRouter();
     const [movieData, setMovieData] = useState<Movie>();
+    const [loading, setLoading] = useState<Boolean>(false);
+
     useEffect(() => {
         const getMovieData = async () => {
-            const res = await fetch(`/movies/items/api?id=${params.id}`);
-            const {data} = await res.json();
-            setMovieData(data);
-        }
+            setLoading(true);
+            try {
+                const res = await fetch(`/movies/items/api?id=${params.id}`);
+                const {data} = await res.json();
+                setMovieData(data);
+            } catch (error) {
+
+            } finally {
+                setLoading(false);
+            }
+        };
         getMovieData();
     },[params.id]);
 
-    if (!movieData) {
-        return <p>Movie not found</p>;
-    }
-
     return (
-        <div>
-            <h1>{movieData.movie}</h1>
-            <p>Year: {movieData.rating}</p>
+        <div className="min-h-screen flex flex-col items-center pt-12">
+            {loading ? <Spinner/> : (
+                <>
+                    <h1 className="text-4xl font-bold">{movieData?.movie}</h1>
+                    <div className="mt-8">
+                        <p className="text-lg"><span className="font-bold">More info:</span> {movieData?.imdb_url}</p>
+                        <p className="text-lg"><span className="font-bold">Movie Rating:</span> {movieData?.rating}</p>
+                    </div>
+                </>
+            )
+            }
+
+            <div className="mt-8">
+                <button onClick={() => router.back()}
+                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Go Back
+                </button>
+            </div>
         </div>
     );
 };

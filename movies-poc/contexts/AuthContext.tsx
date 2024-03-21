@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const router = useRouter();
 
     useEffect(() => {
-        // Simulate checking for a logged-in user
         const loggedInUser = localStorage.getItem('user');
         if (loggedInUser) {
             setUser(JSON.parse(loggedInUser));
@@ -36,7 +35,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     useEffect(() => {
         if (!loading && !user) {
-            // Redirect to login if not logged in
             router.push('/login');
         }
     }, [user, loading, router]);

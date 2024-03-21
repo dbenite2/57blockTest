@@ -41,9 +41,10 @@ const LoginPage: NextPage = () => {
     };
 
     return (
-        <>
-            <section>
-                <form id="login" onSubmit={handleSubmit}>
+        <div className="min-h-screen bg-black flex justify-center items-center">
+            <section className="max-w-md w-full bg-[#181818] p-8 rounded">
+                <h2 className="text-white text-3xl font-bold mb-6">Sign In</h2>
+                <form id="login" onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <InputField
                         id="email"
                         type="email"
@@ -60,10 +61,10 @@ const LoginPage: NextPage = () => {
                         label="Password"
                         errorMessage={errors.password}
                     />
-                    <button type="submit">Login</button>
+                    <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Login</button>
                 </form>
             </section>
-        </>
+        </div>
     );
 }
 

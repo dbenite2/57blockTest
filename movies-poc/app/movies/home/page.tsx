@@ -4,74 +4,66 @@ import {useState, useEffect} from "react";
 import {useAuth} from "@/contexts/AuthContext";
 import {NextPage} from "next";
 import {Movie} from "@/app/lib/movies";
-import Link from 'next/link';
-import {addFavorite} from "@/utils/favorites/util";
+import {addFavorite, isFavorite} from "@/utils/favorites/util";
+
+import TypeaheadInput from "@/app/components/common/typeAheadInput";
+import Card from "@/app/components/common/card";
+import PageSelector from "@/app/components/common/pageSelector";
+import Spinner from "@/app/components/ui/spinner";
 
 const Home: NextPage = () => {
 const [movies, setMovies] = useState<Movie[]>([]);
 const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
+const [favoritesStatus, setFavoritesStatus] = useState<{ [key: number]: boolean }>({});
+const [totalPages, setTotalPages] = useState<number>(0);
+const [loading, setLoading] = useState<boolean>(false);
 const {user} = useAuth();
 useEffect(() => {
     const fetchMovies = async () => {
-        const res = await fetch(`/movies/home/api?page=${page}&limit=20`);
-        const {data} = await res.json();
-        setMovies([...data]);
-        setTotalPages(Math.ceil(100 / 20));
+        setLoading(true);
+        try {
+            const res = await fetch(`/movies/api?page=${page}&limit=20`);
+            const {data} = await res.json();
+            setMovies([...data]);
+            setTotalPages(Math.ceil(100 / 20));
+            updateFavoriteStatus([...data])
+        } catch (error) {
+
+        } finally {
+             setLoading(false);
+        }
     };
 
     fetchMovies();
 }, [page]);
 
-    const handlePreviousPage = () => {
-        setPage((prevPage) => Math.max(prevPage - 1, 1));
-    };
-
-    const handleNextPage = () => {
-        setPage((prevPage) => Math.min(prevPage + 1, totalPages));
-    };
-
-    const handleAddFavorite = (movie: Movie) => {
-        addFavorite(movie);
-    }
+const updateFavoriteStatus = (movies: Movie[]) => {
+    const status = movies.reduce((acc, movie) => {
+        acc[movie.id] = isFavorite(movie.id);
+        return acc;
+    }, {} as {[key: number]: boolean});
+    setFavoritesStatus(status);
+}
+const handleAddFavorite = (movie: Movie) => {
+    addFavorite(movie);
+    setFavoritesStatus((prevStatus) => ({
+        ...prevStatus,
+        [movie.id]: !prevStatus[movie.id]
+    }))
+}
 
   return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-          <div className="overflow-auto h-96">
+      <main className="flex flex-col p-4 bg-black text-white min-h-[860px]">
+          <TypeaheadInput/>
+          {loading ? <Spinner/> : <div className="overflow-auto mt-4 h-[700px]">
               {movies.map((movie) => (
-                  <div key={movie.id} className="p-4 hover:bg-gray-100 flex justify-between">
-                      <Link href={`/movies/items/${movie.id}`}>
-                          {movie.movie}
-                      </Link>
-                      <button
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                          onClick={() => handleAddFavorite(movie)}
-                      >
-                          Favorite
-                      </button>
-                  </div>
+                  <Card key={movie.id} movie={movie} path={`/movies/items/${movie.id}`}
+                        favorite={favoritesStatus[movie.id]} toggle={handleAddFavorite}/>
               ))}
-          </div>
-          <div style={{marginTop: '20px'}}>
-              <button onClick={handlePreviousPage} disabled={page <= 1}>
-                  Previous
-              </button>
-              {Array.from({length: totalPages}, (_, i) => (
-                  <button
-                      key={i}
-                      onClick={() => setPage(i + 1)}
-                      style={{fontWeight: page === i + 1 ? 'bold' : 'normal'}}
-                  >
-                      {i + 1}
-                  </button>
-              ))}
-              <button onClick={handleNextPage} disabled={page >= totalPages}>
-                  Next
-              </button>
-          </div>
+          </div>}
+          <PageSelector page={page} totalPages={totalPages} onPageChange={setPage}/>
       </main>
   );
 }
-
 
 export default Home;
