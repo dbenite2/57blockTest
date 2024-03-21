@@ -4,31 +4,24 @@ import {useState, useEffect} from "react";
 import {useAuth} from "@/contexts/AuthContext";
 import {NextPage} from "next";
 import {Movie} from "@/app/lib/movies";
-import {getAllMovies} from "@/services/moviesServices";
 import Link from 'next/link';
+import {addFavorite} from "@/utils/favorites/util";
 
-interface HomeProps {
-    movies: Movie[];
-    page: number;
-    totalPages: number;
-}
-
-
-const Home: NextPage<HomeProps> = () => {
+const Home: NextPage = () => {
 const [movies, setMovies] = useState<Movie[]>([]);
 const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
 const {user} = useAuth();
-    useEffect(() => {
-        const fetchMovies = async () => {
-            const res = await fetch(`/home/api?page=${page}&limit=20`);
-            const {data} = await res.json();
-            setMovies([...data]);
-            setTotalPages(Math.ceil(100 / 20));
-        };
+useEffect(() => {
+    const fetchMovies = async () => {
+        const res = await fetch(`/movies/home/api?page=${page}&limit=20`);
+        const {data} = await res.json();
+        setMovies([...data]);
+        setTotalPages(Math.ceil(100 / 20));
+    };
 
-        fetchMovies();
-    }, [page]);
+    fetchMovies();
+}, [page]);
 
     const handlePreviousPage = () => {
         setPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -38,17 +31,21 @@ const {user} = useAuth();
         setPage((prevPage) => Math.min(prevPage + 1, totalPages));
     };
 
+    const handleAddFavorite = (movie: Movie) => {
+        addFavorite(movie);
+    }
+
   return (
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
           <div className="overflow-auto h-96">
               {movies.map((movie) => (
                   <div key={movie.id} className="p-4 hover:bg-gray-100 flex justify-between">
-                      <Link href={`/movies/${movie.id}`}>
+                      <Link href={`/movies/items/${movie.id}`}>
                           {movie.movie}
                       </Link>
                       <button
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                          onClick={(e) => e}
+                          onClick={() => handleAddFavorite(movie)}
                       >
                           Favorite
                       </button>
