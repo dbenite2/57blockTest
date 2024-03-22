@@ -5,7 +5,7 @@ import { getFavorites } from '@/utils/favorites/util';
 import { Movie } from '@/app/lib/movies';
 import Link from 'next/link';
 
-const Favorites: React.FC = () => {
+const Favorites = () => {
     const [favorites, setFavorites] = useState<Movie[]>([]);
 
     useEffect(() => {

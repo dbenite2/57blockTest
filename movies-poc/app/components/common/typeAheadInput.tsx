@@ -2,7 +2,7 @@ import {useState, useEffect, useRef} from 'react';
 import Link from "next/link";
 
 import {Movie} from "@/app/lib/movies";
-import InputField from "@/app/components/ui/InputField";
+import InputField from "@/app/components/ui/inputField";
 
 const DEBOUNCE_DELAY = 300;
 
@@ -38,7 +38,7 @@ const TypeaheadInput = () => {
     }, [inputValue]);
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
+        const handleClickOutside = (event: any) => {
             if(containerRef.current && !containerRef.current.contains(event.target)) {
                 setShowSuggestions(false);
             }

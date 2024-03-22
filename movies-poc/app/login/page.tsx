@@ -4,7 +4,7 @@ import {useState} from "react";
 import { useRouter } from 'next/navigation';
 import type {NextPage} from "next";
 
-import InputField from "@/app/components/ui/InputField";
+import InputField from "@/app/components/ui/inputField";
 
 const MIN_PASSWORD_LENGTH = 6;
 
