@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from 'react';
 import Link from "next/link";
 
-import {Movie} from "@/app/lib/movies";
+import {Movie} from "@/app/types/movies";
 import InputField from "@/app/components/ui/inputField";
 
 const DEBOUNCE_DELAY = 300;

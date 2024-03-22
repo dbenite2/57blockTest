@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation';
-import {Movie} from "@/app/lib/movies";
+import {Movie} from "@/app/types/movies";
 import React, {useEffect, useState} from 'react';
 import Spinner from "@/app/components/ui/spinner";
 

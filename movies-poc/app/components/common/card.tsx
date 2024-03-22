@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import {Movie} from "@/app/lib/movies";
+import {Movie} from "@/app/types/movies";
 import FavoriteButton from "@/app/components/ui/favoriteButton";
 
 interface card {

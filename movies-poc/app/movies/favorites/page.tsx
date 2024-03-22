@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { getFavorites } from '@/utils/favorites/util';
-import { Movie } from '@/app/lib/movies';
+import { Movie } from '@/app/types/movies';
 import Link from 'next/link';
 
 const Favorites = () => {

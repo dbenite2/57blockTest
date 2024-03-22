@@ -3,7 +3,7 @@
 import {useState, useEffect} from "react";
 import {useAuth} from "@/contexts/AuthContext";
 import {NextPage} from "next";
-import {Movie} from "@/app/lib/movies";
+import {Movie} from "@/app/types/movies";
 import {addFavorite, isFavorite} from "@/utils/favorites/util";
 
 import TypeaheadInput from "@/app/components/common/typeAheadInput";

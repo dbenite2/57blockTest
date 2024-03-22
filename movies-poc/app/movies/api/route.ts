@@ -1,4 +1,4 @@
-import {Movie} from "@/app/lib/movies";
+import {Movie} from "@/app/types/movies";
 
 export async function GET(request:Request) {
     const {searchParams} = new URL(request.url);

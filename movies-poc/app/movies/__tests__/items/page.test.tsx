@@ -3,8 +3,6 @@ import MovieDetailPage from "@/app/movies/items/[id]/page";
 import { render, screen, waitFor } from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 import '@testing-library/jest-dom';
-import { useRouter } from 'next/navigation';
-
 jest.mock('next/navigation', () => ({
     useRouter: () => ({
         back: jest.fn(),
@@ -12,7 +10,6 @@ jest.mock('next/navigation', () => ({
 }));
 
 global.fetch = jest.fn();
-
 
 fetchMock.enableMocks();
 

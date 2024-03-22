@@ -1,4 +1,4 @@
-import {Movie} from "@/app/lib/movies";
+import {Movie} from "@/app/types/movies";
 
 const FAVORITES_KEY = 'favoriteMovies'
 
