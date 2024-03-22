@@ -9,7 +9,6 @@ jest.mock('next/link', () => {
     return ({ children }) => children;
 });
 jest.mock('@/app/components/ui/FavoriteButton', () => {
-    // Provide a mock implementation if necessary
     return jest.fn(({ isFavorite, onToggle }) => (
         <button onClick={onToggle} data-testid="favorite-button">
             {isFavorite ? 'Unfavorite' : 'Favorite'}
@@ -40,8 +39,6 @@ describe('Card', () => {
 
         const linkElement = screen.getByText('Test Movie');
         expect(linkElement).toBeInTheDocument();
-        // Note: Checking the href attribute directly doesn't work with this mock,
-        // so ensure your component renders as expected in a functional test or integration test.
     });
 
     test('renders FavoriteButton with correct favorite state', () => {

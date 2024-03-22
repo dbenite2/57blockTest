@@ -56,6 +56,6 @@ describe('InputField', () => {
         fireEvent.change(inputElement, { target: { value: newValue } });
 
         expect(mockOnChange).toHaveBeenCalledTimes(1);
-        expect(mockOnChange).toHaveBeenCalledWith(expect.anything()); // More specific assertion can be made based on your onChange implementation
+        expect(mockOnChange).toHaveBeenCalledWith(expect.anything());
     });
 });
