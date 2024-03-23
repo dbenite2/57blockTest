@@ -55,3 +55,6 @@ Test can be executed by
   ```sh
   npm run test
 ```
+
+## Demo video:
+   https://drive.google.com/file/d/1D3akGTm2nGIfP55qSvLQuS6X3boCTBwV/view?usp=drive_link
